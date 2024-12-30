@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./NavbarStyles.module.css";
+import styles from "../Navbar/NavbarStyles.module.css";
 import Logo from "./Logo/Logo";
 import SearchBar from "./SearchBar/SearchBar";
 import Button from "./Button/Button";
