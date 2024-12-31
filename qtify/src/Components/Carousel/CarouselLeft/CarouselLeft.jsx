@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import {ReactComponent as LeftArrow} from "../../../assets/LeftArrow.svg"
-import { useSwiper, Swiper, SwiperSlide } from 'swiper/react';
+import { ReactComponent as LeftArrow } from "../../../assets/LeftArrow.svg";
+import { useSwiper } from 'swiper/react';
 import 'swiper/css';
 import styles from "./CarouselLeft.module.css";
 
-
 const CarouselLeft = () => {
-  let swiper =useSwiper();
-  const[isBeginning, setIsBeginning]=useState(swiper.isBeginning);
+  const swiper = useSwiper(); 
+  const [isBeginning, setIsBeginning] = useState(swiper.isBeginning); 
 
-  useEffect(()=>{
-    swiper.on("slideChange", () => {
-      setIsBeginning(swiper.isBeginning)
-  })
-  },[swiper]);
+  useEffect(() => {
+    const handleSlideChange = () => {
+      setIsBeginning(swiper.isBeginning); 
+    };
+
+    swiper.on("slideChange", handleSlideChange);
+
+    return () => {
+      swiper.off("slideChange", handleSlideChange); 
+    };
+  }, [swiper]); 
 
   return (
     <div className={styles.leftNavigation}>
-      {!isBeginning && <LeftArrow onClick={()=>swiper.slidePrev()}/>}
+      {/* Show left arrow only when not at the beginning */}
+      {!isBeginning && <LeftArrow onClick={() => swiper.slidePrev()} />}
     </div>
-  )
-}
+  );
+};
 
-export default CarouselLeft
+export default CarouselLeft;
