@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styles from "./FilterSection.module.css";
-import Section from '../../Section/Section';
+import Section from '../Section/Section.jsx';
 import BasicTabs from '../BasicTabs/BasicTabs';
 import Carousel from '../Carousel/Carousel';
 import Card from '../../Card/Card';
