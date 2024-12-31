@@ -2,106 +2,89 @@ import logo from './logo.svg';
 import Navbar from './Components/Navbar/Navbar.jsx';
 import Hero from './Components/Hero/Hero.jsx';
 import Section from './Components/Section/Section.jsx';
-import FilterSection from '../src/Components/FilterSection/FilterSection.jsx';
-import {fetchTopAlbums, fetchNewAlbums, fetchSongs} from './api/api'
+import FilterSection from './Components/FilterSection/FilterSection.jsx';
+import { fetchTopAlbums, fetchNewAlbums, fetchSongs } from './api/api';
 import { useEffect, useState } from 'react';
-import styles from "../src/App.module.css";
+import styles from './App.module.css';
 
 function App() {
+  const [topAlbumSongs, setTopAlbumSongs] = useState([]);
+  const [newAlbumSongs, setNewAlbumSongs] = useState([]);
+  const [songsData, setSongsData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [value, setValue] = useState(0);
+  const [error, setError] = useState(null);
 
-  const[topAlbumSongs,setTopAlbumSongs]=useState([]);
-  const[newAlbumSongs,setNewAlbumSongs]=useState([]);
+  const genresMap = {
+    0: "", // All genres
+    1: "rock",
+    2: "pop",
+    3: "jazz",
+    4: "blues"
+  };
 
-  const[songsData, setSongsData]=useState([]);
-
-  const[value,setValue]= useState(0);
-
-  const[filteredData, setFilteredData]=useState([]);
-
-  const generateTopAlbumSongs=async()=>{
-    try{
-      const res= await fetchTopAlbums();
-    setTopAlbumSongs(res);
+  const generateTopAlbumSongs = async () => {
+    try {
+      const res = await fetchTopAlbums();
+      setTopAlbumSongs(res);
+    } catch (error) {
+      setError("Failed to load top albums.");
     }
-    catch(error){
-      console.log(error);
-      return null;
-    } 
-  }
+  };
 
-  const generateNewAlbumSongs=async()=>{
-    try{
-      const res= await fetchNewAlbums();
-    setNewAlbumSongs(res);
+  const generateNewAlbumSongs = async () => {
+    try {
+      const res = await fetchNewAlbums();
+      setNewAlbumSongs(res);
+    } catch (error) {
+      setError("Failed to load new albums.");
     }
-    catch(error){
-      console.log(error);
-      return null;
-    } 
-  }
+  };
 
-  const generateSongs=async()=>{
-    try{
-      console.log("generateSongs");
-      const res=await fetchSongs();
+  const generateSongs = async () => {
+    try {
+      const res = await fetchSongs();
       setSongsData(res);
       setFilteredData(res);
+    } catch (error) {
+      setError("Failed to load songs.");
     }
-    catch(error){
-      return null;
-    }
-  }
+  };
 
-const generateNewSongs=(index)=>{
+  const generateNewSongs = (index) => {
+    const key = genresMap[index] || "";
+    const newSongsArray = songsData.filter(song =>
+      key === "" || song.genre.key === key
+    );
+    setFilteredData(newSongsArray);
+  };
 
-  let key="";
-  if(index===0){
-    generateSongs();
-    return;
-  }
-  else if(index===1){
-    key="rock";
-  }
-  else if(index===2){
-    key="pop";
-  }
+  const handleChangeIndex = async (newValue) => {
+    setValue(newValue);
+    generateNewSongs(newValue);
+  };
 
-  else if(index===3){
-    key="jazz";
-  }
-  else if(index===4){
-    key="blues";
-  }
-
-  let newSongsArray=songsData.filter((song)=>{
-    console.log("key: ",key)
-    return(song.genre.key===key);
-  })
-
-  console.log("generateNewSongs triggered and filtered this Data: ", newSongsArray)
-  setFilteredData(newSongsArray);
-}
-
- const handleChangeIndex= async(newValue)=>{
-  console.log("handleChangeIndex triggered with newValue: ",newValue)
-  setValue(newValue);
-  generateNewSongs(newValue);
- }
-
-  useEffect(()=>{
+  useEffect(() => {
     generateTopAlbumSongs();
     generateNewAlbumSongs();
     generateSongs();
-  },[])
+  }, []);
 
   return (
     <div className="App">
       <Navbar />
       <Hero />
       <div className={styles.sectionWrapper}>
-      <Section type='album' title='Top Albums' data={topAlbumSongs}/>
-      <Section type='album' title='New Albums' data={newAlbumSongs}/>
-      <FilterSection  type='song' title='Songs' value={value} filteredData={filteredData} handleChangeIndex={handleChangeIndex}/>
+        {error && <div className={styles.error}>{error}</div>}
+        <Section type="album" title="Top Albums" data={topAlbumSongs} />
+        <Section type="album" title="New Albums" data={newAlbumSongs} />
+        <FilterSection
+          type="song"
+          title="Songs"
+          value={value}
+          filteredData={filteredData}
+          handleChangeIndex={handleChangeIndex}
+        />
       </div>
     </div>
   );
