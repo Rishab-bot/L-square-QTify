@@ -1,8 +1,8 @@
 import logo from './logo.svg';
-import Navbar from './components/Navbar/Navbar';
-import Hero from './components/Hero/Hero';
-import Section from './components/Section/Section';
-import FilterSection from '../src/Components/FilterSection/FilterSection';
+import Navbar from './components/Navbar/Navbar.jsx';
+import Hero from './components/Hero/Hero.jsx';
+import Section from './components/Section/Section.jsx';
+import FilterSection from '../src/Components/FilterSection/FilterSection.jsx';
 import {fetchTopAlbums, fetchNewAlbums, fetchSongs} from './api/api'
 import { useEffect, useState } from 'react';
 import styles from "../src/App.module.css";
