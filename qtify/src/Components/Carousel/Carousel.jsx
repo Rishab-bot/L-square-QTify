@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
-
 import { useSwiper, Swiper, SwiperSlide } from 'swiper/react';
 import CarouselLeft from './CarouselLeft/CarouselLeft';
-import CarouselRight from "./CarouselRight/CarouselRight";
+import CarouselRight from './CarouselRight/CarouselRight';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import styles from "./Carousel.module.css";
+import styles from './Carousel.module.css';
 import { Navigation } from 'swiper';
 
 const Controls = ({ data }) => {
   let swiper = useSwiper();
 
   useEffect(() => {
-    swiper.slideTo(0, 1); 
+    if (swiper && data.length) {
+      swiper.slideTo(0, 1); 
+    }
   }, [data, swiper]);
 
   return <></>; 
