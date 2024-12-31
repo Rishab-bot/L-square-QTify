@@ -5,7 +5,7 @@ import CarouselRight from './CarouselRight/CarouselRight';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import styles from './Carousel.module.css';
-import { Navigation } from 'swiper';
+// import { Navigation } from 'swiper';
 
 const Controls = ({ data }) => {
   let swiper = useSwiper();
