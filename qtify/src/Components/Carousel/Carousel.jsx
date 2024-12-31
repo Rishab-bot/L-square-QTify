@@ -4,6 +4,7 @@ import CarouselLeft from './CarouselLeft/CarouselLeft';
 import CarouselRight from './CarouselRight/CarouselRight';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import styles from './Carousel.module.css';
 // import { Navigation } from 'swiper';
 
