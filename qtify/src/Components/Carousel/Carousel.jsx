@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useSwiper, Swiper, SwiperSlide } from 'swiper/react';
 import CarouselLeft from './CarouselLeft/CarouselLeft';
 import CarouselRight from "./CarouselRight/CarouselRight";
-import { Navigation } from 'swiper';
+import { Navigation } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
